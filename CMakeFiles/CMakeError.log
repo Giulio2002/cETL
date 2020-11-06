@@ -1,0 +1,65 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/giulio/silkworm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_15347/fast && /usr/bin/make  -f CMakeFiles/cmTC_15347.dir/build.make CMakeFiles/cmTC_15347.dir/build
+make[1]: ingresso nella directory "/home/giulio/silkworm/CMakeFiles/CMakeTmp"
+Building C object CMakeFiles/cmTC_15347.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD -fPIE -fvisibility=hidden -o CMakeFiles/cmTC_15347.dir/src.c.o -c /home/giulio/silkworm/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_15347
+/snap/cmake/619/bin/cmake -E cmake_link_script CMakeFiles/cmTC_15347.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD -rdynamic CMakeFiles/cmTC_15347.dir/src.c.o -o cmTC_15347 
+CMakeFiles/cmTC_15347.dir/src.c.o: nella funzione "main":
+src.c:(.text+0x3e): riferimento non definito a "pthread_create"
+src.c:(.text+0x4a): riferimento non definito a "pthread_detach"
+src.c:(.text+0x56): riferimento non definito a "pthread_cancel"
+src.c:(.text+0x67): riferimento non definito a "pthread_join"
+src.c:(.text+0x7b): riferimento non definito a "pthread_atfork"
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_15347.dir/build.make:105: recipe for target 'cmTC_15347' failed
+make[1]: *** [cmTC_15347] Error 1
+make[1]: uscita dalla directory "/home/giulio/silkworm/CMakeFiles/CMakeTmp"
+Makefile:140: recipe for target 'cmTC_15347/fast' failed
+make: *** [cmTC_15347/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/giulio/silkworm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c9fbc/fast && /usr/bin/make  -f CMakeFiles/cmTC_c9fbc.dir/build.make CMakeFiles/cmTC_c9fbc.dir/build
+make[1]: ingresso nella directory "/home/giulio/silkworm/CMakeFiles/CMakeTmp"
+Building C object CMakeFiles/cmTC_c9fbc.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -fPIE -fvisibility=hidden -o CMakeFiles/cmTC_c9fbc.dir/CheckFunctionExists.c.o -c /snap/cmake/619/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c9fbc
+/snap/cmake/619/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c9fbc.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create -rdynamic CMakeFiles/cmTC_c9fbc.dir/CheckFunctionExists.c.o -o cmTC_c9fbc  -lpthreads 
+/usr/bin/ld: impossibile trovare -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_c9fbc.dir/build.make:105: recipe for target 'cmTC_c9fbc' failed
+make[1]: *** [cmTC_c9fbc] Error 1
+make[1]: uscita dalla directory "/home/giulio/silkworm/CMakeFiles/CMakeTmp"
+Makefile:140: recipe for target 'cmTC_c9fbc/fast' failed
+make: *** [cmTC_c9fbc/fast] Error 2
+
+
+

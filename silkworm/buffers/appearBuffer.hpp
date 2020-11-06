@@ -1,6 +1,6 @@
 #include <silkworm/buffers/buffer.hpp>
 
-class AppearBuffer: Buffer {
+class AppearBuffer: public Buffer {
    public:
     AppearBuffer(size_t _optimalSize);
 

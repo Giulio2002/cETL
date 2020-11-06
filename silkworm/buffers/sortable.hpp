@@ -1,6 +1,6 @@
 #include <silkworm/buffers/buffer.hpp>
 
-class SortableBuffer : Buffer {
+class SortableBuffer: public Buffer {
    public:
     SortableBuffer(size_t _optimalSize);
 

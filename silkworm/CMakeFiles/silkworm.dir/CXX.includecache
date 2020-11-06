@@ -6,26 +6,8 @@
 
 #IncludeRegexTransform: 
 
-/home/giulio/silkworm/silkworm/buffers/appearBuffer.cpp
-silkworm/buffers/appearBuffer.hpp
--
-algorithm
--
-
-/home/giulio/silkworm/silkworm/buffers/appendBuffer.cpp
-silkworm/buffers/appendBuffer.hpp
--
-
 /home/giulio/silkworm/silkworm/buffers/sortable.cpp
 silkworm/buffers/sortable.hpp
--
-
-silkworm/buffers/appearBuffer.hpp
-silkworm/buffers/buffer.hpp
--
-
-silkworm/buffers/appendBuffer.hpp
-silkworm/buffers/buffer.hpp
 -
 
 silkworm/buffers/buffer.hpp

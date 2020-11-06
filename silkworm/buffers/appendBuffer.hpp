@@ -1,6 +1,6 @@
 #include <silkworm/buffers/buffer.hpp>
 
-class AppendBuffer: Buffer {
+class AppendBuffer: public Buffer {
    public:
     AppendBuffer(size_t _optimalSize);
 

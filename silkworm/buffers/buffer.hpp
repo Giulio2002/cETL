@@ -9,18 +9,15 @@ struct entry {
     std::string v;
 };
 
-
-bool comp(const entry lhs, const entry rhs) { return lhs.k.compare(rhs.k) < 0; }
-
 class Buffer {
    public:
 
-    void put(std::string, std::string);
-    void reset();
-    void sort();
+    virtual void put(std::string, std::string) = 0;
+    virtual void reset() = 0;
+    virtual void sort() = 0;
 
-    int length();
-    bool checkFlushSize();
-    std::vector<entry> getEntries();
-    entry get(int);
+    virtual int length() = 0;
+    virtual bool checkFlushSize() = 0;
+    virtual std::vector<entry> getEntries() = 0;
+    virtual entry get(int) = 0;
 };

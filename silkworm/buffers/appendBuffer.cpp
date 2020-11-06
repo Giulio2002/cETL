@@ -36,7 +36,9 @@ void AppendBuffer::sort() {
     for (auto it = entries.begin(); it != entries.end(); ++it) {
         buffer.push_back({it->first, it->second});
     }
-    std::sort(buffer.begin(), buffer.end(), comp);
+    std::sort(buffer.begin(), buffer.end(), [](const entry lhs, const entry rhs) {
+        return lhs.k.compare(rhs.k) < 0;
+    });
 }
 
 void AppendBuffer::reset() {

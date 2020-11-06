@@ -24,7 +24,9 @@ int SortableBuffer::length() {
 }
 
 void SortableBuffer::sort() {
-    std::sort(entries.begin(), entries.end(), comp);
+    std::sort(entries.begin(), entries.end(), [](const entry lhs, const entry rhs) {
+        return lhs.k.compare(rhs.k) < 0;
+    });
 }
 
 void SortableBuffer::reset() {

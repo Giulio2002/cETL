@@ -16,10 +16,28 @@
 
 cmake_minimum_required(VERSION 3.13)
 
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/evmone/evmc/.git)
+  message(FATAL_ERROR "Git submodules not initialized, execute:\n  git submodule update --init --recursive")
+endif()
+
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain.cmake CACHE FILEPATH "" FORCE)
+
+include(evmone/cmake/cable/bootstrap.cmake)
+include(CableBuildType)
+cable_set_build_type(DEFAULT Release CONFIGURATION_TYPES Release Debug)
+include(evmone/cmake/cable/HunterGate.cmake)
+
+
+set(HUNTER_USE_CACHE_SERVERS NO)
+HunterGate(
+  URL "https://github.com/cpp-pm/hunter/archive/v0.23.267.tar.gz"
+  SHA1 "9c5c7fa6e17c2ae15dd922184bc7c51235aaae70"
+  FILEPATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Hunter/config.cmake"
+)
 
 project(silkworm)
 
+include(cmake/Hunter/packages.cmake)
 
 # secp256k1
 if(MSVC)
@@ -52,6 +70,9 @@ if(MSVC)
 endif()
 add_subdirectory(libff)
 
+# CBOR
+add_subdirectory(cbor-cpp)
+
 # Compiler and linker options
 if(MSVC)
   add_compile_definitions(_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING)
@@ -83,6 +104,23 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang$")
     add_compile_options(-gline-tables-only)
   endif()
 endif()
+
+# evmone
+add_subdirectory(evmone/evmc)
+
+find_package(ethash CONFIG REQUIRED)
+find_package(intx CONFIG REQUIRED)
+
+add_library(evmone evmone/lib/evmone/analysis.cpp
+                   evmone/lib/evmone/analysis.hpp
+                   evmone/lib/evmone/execution_state.hpp
+                   evmone/lib/evmone/instructions.cpp
+                   evmone/lib/evmone/instructions.hpp
+                   evmone/lib/evmone/limits.hpp
+                   evmone/lib/evmone/opcodes_helpers.h)
+
+target_include_directories(evmone PUBLIC evmone/lib/evmone)
+target_link_libraries(evmone PUBLIC evmc intx::intx PRIVATE ethash::keccak)
 
 # Silkworm itself
 add_subdirectory(silkworm)
