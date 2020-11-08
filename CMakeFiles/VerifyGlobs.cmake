@@ -29,6 +29,8 @@ set(OLD_GLOB
   "/home/giulio/silkworm/silkworm/db/chaindb.cpp"
   "/home/giulio/silkworm/silkworm/db/tables.cpp"
   "/home/giulio/silkworm/silkworm/db/util.cpp"
+  "/home/giulio/silkworm/silkworm/heap/heap.cpp"
+  "/home/giulio/silkworm/silkworm/heap/heap_test.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -60,6 +62,7 @@ set(OLD_GLOB
   "/home/giulio/silkworm/silkworm/db/chaindb.hpp"
   "/home/giulio/silkworm/silkworm/db/tables.hpp"
   "/home/giulio/silkworm/silkworm/db/util.hpp"
+  "/home/giulio/silkworm/silkworm/heap/heap.hpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -74,6 +77,7 @@ set(OLD_GLOB
   "/home/giulio/silkworm/silkworm/buffers/sortable_test.cpp"
   "/home/giulio/silkworm/silkworm/common/log_test.cpp"
   "/home/giulio/silkworm/silkworm/common/util_test.cpp"
+  "/home/giulio/silkworm/silkworm/heap/heap_test.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

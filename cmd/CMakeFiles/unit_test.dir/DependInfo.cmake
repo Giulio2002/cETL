@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/giulio/silkworm/silkworm/buffers/sortable_test.cpp" "/home/giulio/silkworm/cmd/CMakeFiles/unit_test.dir/__/silkworm/buffers/sortable_test.cpp.o"
   "/home/giulio/silkworm/silkworm/common/log_test.cpp" "/home/giulio/silkworm/cmd/CMakeFiles/unit_test.dir/__/silkworm/common/log_test.cpp.o"
   "/home/giulio/silkworm/silkworm/common/util_test.cpp" "/home/giulio/silkworm/cmd/CMakeFiles/unit_test.dir/__/silkworm/common/util_test.cpp.o"
+  "/home/giulio/silkworm/silkworm/heap/heap_test.cpp" "/home/giulio/silkworm/cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.o"
   "/home/giulio/silkworm/cmd/unit_test.cpp" "/home/giulio/silkworm/cmd/CMakeFiles/unit_test.dir/unit_test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

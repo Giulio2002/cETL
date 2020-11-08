@@ -6,21 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/giulio/silkworm/silkworm/buffers/sortable.cpp
-silkworm/buffers/sortable.hpp
+/home/giulio/silkworm/silkworm/heap/heap.cpp
+silkworm/heap/heap.hpp
 -
 
-silkworm/buffers/buffer.hpp
+silkworm/heap/heap.hpp
 vector
--
-string
--
-map
 -
 algorithm
 -
-
-silkworm/buffers/sortable.hpp
-silkworm/buffers/buffer.hpp
+string
 -
 

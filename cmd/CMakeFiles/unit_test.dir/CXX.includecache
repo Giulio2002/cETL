@@ -580,13 +580,17 @@ algorithm
 cassert
 -
 
-/home/giulio/silkworm/silkworm/buffers/sortable.hpp
-silkworm/buffers/buffer.hpp
+/home/giulio/silkworm/silkworm/heap/heap.hpp
+vector
+-
+algorithm
+-
+string
 -
 
-/home/giulio/silkworm/silkworm/buffers/sortable_test.cpp
-sortable.hpp
-/home/giulio/silkworm/silkworm/buffers/sortable.hpp
+/home/giulio/silkworm/silkworm/heap/heap_test.cpp
+heap.hpp
+/home/giulio/silkworm/silkworm/heap/heap.hpp
 catch2/catch.hpp
 -
 iostream
@@ -596,15 +600,5 @@ regex
 sstream
 -
 string
--
-
-silkworm/buffers/buffer.hpp
-vector
--
-string
--
-map
--
-algorithm
 -
 

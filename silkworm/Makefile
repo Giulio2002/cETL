@@ -483,6 +483,33 @@ db/util.cpp.s:
 	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f silkworm/CMakeFiles/silkworm.dir/build.make silkworm/CMakeFiles/silkworm.dir/db/util.cpp.s
 .PHONY : db/util.cpp.s
 
+heap/heap.o: heap/heap.cpp.o
+
+.PHONY : heap/heap.o
+
+# target to build an object file
+heap/heap.cpp.o:
+	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f silkworm/CMakeFiles/silkworm.dir/build.make silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o
+.PHONY : heap/heap.cpp.o
+
+heap/heap.i: heap/heap.cpp.i
+
+.PHONY : heap/heap.i
+
+# target to preprocess a source file
+heap/heap.cpp.i:
+	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f silkworm/CMakeFiles/silkworm.dir/build.make silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.i
+.PHONY : heap/heap.cpp.i
+
+heap/heap.s: heap/heap.cpp.s
+
+.PHONY : heap/heap.s
+
+# target to generate assembly for a file
+heap/heap.cpp.s:
+	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f silkworm/CMakeFiles/silkworm.dir/build.make silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.s
+.PHONY : heap/heap.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -528,6 +555,9 @@ help:
 	@echo "... db/util.o"
 	@echo "... db/util.i"
 	@echo "... db/util.s"
+	@echo "... heap/heap.o"
+	@echo "... heap/heap.i"
+	@echo "... heap/heap.s"
 .PHONY : help
 
 

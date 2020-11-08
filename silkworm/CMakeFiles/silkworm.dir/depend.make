@@ -2580,3 +2580,6 @@ silkworm/CMakeFiles/silkworm.dir/db/util.cpp.o: evmone/evmc/include/evmc/evmc.hp
 silkworm/CMakeFiles/silkworm.dir/db/util.cpp.o: evmone/evmc/include/evmc/helpers.h
 silkworm/CMakeFiles/silkworm.dir/db/util.cpp.o: silkworm/common/base.hpp
 
+silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o: silkworm/heap/heap.cpp
+silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o: silkworm/heap/heap.hpp
+

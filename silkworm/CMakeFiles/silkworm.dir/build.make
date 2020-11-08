@@ -206,6 +206,19 @@ silkworm/CMakeFiles/silkworm.dir/db/util.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/silkworm.dir/db/util.cpp.s"
 	cd /home/giulio/silkworm/silkworm && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/giulio/silkworm/silkworm/db/util.cpp -o CMakeFiles/silkworm.dir/db/util.cpp.s
 
+silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o: silkworm/CMakeFiles/silkworm.dir/flags.make
+silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o: silkworm/heap/heap.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/giulio/silkworm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o"
+	cd /home/giulio/silkworm/silkworm && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/silkworm.dir/heap/heap.cpp.o -c /home/giulio/silkworm/silkworm/heap/heap.cpp
+
+silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/silkworm.dir/heap/heap.cpp.i"
+	cd /home/giulio/silkworm/silkworm && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/giulio/silkworm/silkworm/heap/heap.cpp > CMakeFiles/silkworm.dir/heap/heap.cpp.i
+
+silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/silkworm.dir/heap/heap.cpp.s"
+	cd /home/giulio/silkworm/silkworm && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/giulio/silkworm/silkworm/heap/heap.cpp -o CMakeFiles/silkworm.dir/heap/heap.cpp.s
+
 # Object files for target silkworm
 silkworm_OBJECTS = \
 "CMakeFiles/silkworm.dir/buffers/appearBuffer.cpp.o" \
@@ -217,7 +230,8 @@ silkworm_OBJECTS = \
 "CMakeFiles/silkworm.dir/common/worker.cpp.o" \
 "CMakeFiles/silkworm.dir/db/chaindb.cpp.o" \
 "CMakeFiles/silkworm.dir/db/tables.cpp.o" \
-"CMakeFiles/silkworm.dir/db/util.cpp.o"
+"CMakeFiles/silkworm.dir/db/util.cpp.o" \
+"CMakeFiles/silkworm.dir/heap/heap.cpp.o"
 
 # External object files for target silkworm
 silkworm_EXTERNAL_OBJECTS =
@@ -232,9 +246,10 @@ silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/common/worker.cpp.o
 silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/db/chaindb.cpp.o
 silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/db/tables.cpp.o
 silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/db/util.cpp.o
+silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/heap/heap.cpp.o
 silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/build.make
 silkworm/libsilkworm.a: silkworm/CMakeFiles/silkworm.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/giulio/silkworm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX static library libsilkworm.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/giulio/silkworm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX static library libsilkworm.a"
 	cd /home/giulio/silkworm/silkworm && $(CMAKE_COMMAND) -P CMakeFiles/silkworm.dir/cmake_clean_target.cmake
 	cd /home/giulio/silkworm/silkworm && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/silkworm.dir/link.txt --verbose=$(VERBOSE)
 

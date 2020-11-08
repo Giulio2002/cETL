@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/silkworm.dir/db/chaindb.cpp.o"
   "CMakeFiles/silkworm.dir/db/tables.cpp.o"
   "CMakeFiles/silkworm.dir/db/util.cpp.o"
+  "CMakeFiles/silkworm.dir/heap/heap.cpp.o"
   "libsilkworm.a"
   "libsilkworm.pdb"
 )

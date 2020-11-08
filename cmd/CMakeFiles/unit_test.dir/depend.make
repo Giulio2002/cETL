@@ -42,6 +42,10 @@ cmd/CMakeFiles/unit_test.dir/__/silkworm/common/util_test.cpp.o: evmone/evmc/inc
 cmd/CMakeFiles/unit_test.dir/__/silkworm/common/util_test.cpp.o: evmone/evmc/include/evmc/helpers.h
 cmd/CMakeFiles/unit_test.dir/__/silkworm/common/util_test.cpp.o: silkworm/common/base.hpp
 
+cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.o: /home/giulio/.hunter/_Base/9c5c7fa/7f99b88/8067db9/Install/include/catch2/catch.hpp
+cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.o: silkworm/heap/heap.hpp
+cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.o: silkworm/heap/heap_test.cpp
+
 cmd/CMakeFiles/unit_test.dir/unit_test.cpp.o: /home/giulio/.hunter/_Base/9c5c7fa/7f99b88/8067db9/Install/include/catch2/catch.hpp
 cmd/CMakeFiles/unit_test.dir/unit_test.cpp.o: cmd/unit_test.cpp
 

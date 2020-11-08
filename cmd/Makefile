@@ -348,6 +348,33 @@ __/silkworm/common/util_test.cpp.s:
 	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f cmd/CMakeFiles/unit_test.dir/build.make cmd/CMakeFiles/unit_test.dir/__/silkworm/common/util_test.cpp.s
 .PHONY : __/silkworm/common/util_test.cpp.s
 
+__/silkworm/heap/heap_test.o: __/silkworm/heap/heap_test.cpp.o
+
+.PHONY : __/silkworm/heap/heap_test.o
+
+# target to build an object file
+__/silkworm/heap/heap_test.cpp.o:
+	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f cmd/CMakeFiles/unit_test.dir/build.make cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.o
+.PHONY : __/silkworm/heap/heap_test.cpp.o
+
+__/silkworm/heap/heap_test.i: __/silkworm/heap/heap_test.cpp.i
+
+.PHONY : __/silkworm/heap/heap_test.i
+
+# target to preprocess a source file
+__/silkworm/heap/heap_test.cpp.i:
+	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f cmd/CMakeFiles/unit_test.dir/build.make cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.i
+.PHONY : __/silkworm/heap/heap_test.cpp.i
+
+__/silkworm/heap/heap_test.s: __/silkworm/heap/heap_test.cpp.s
+
+.PHONY : __/silkworm/heap/heap_test.s
+
+# target to generate assembly for a file
+__/silkworm/heap/heap_test.cpp.s:
+	cd /home/giulio/silkworm && $(MAKE) $(MAKESILENT) -f cmd/CMakeFiles/unit_test.dir/build.make cmd/CMakeFiles/unit_test.dir/__/silkworm/heap/heap_test.cpp.s
+.PHONY : __/silkworm/heap/heap_test.cpp.s
+
 unit_test.o: unit_test.cpp.o
 
 .PHONY : unit_test.o
@@ -405,6 +432,9 @@ help:
 	@echo "... __/silkworm/common/util_test.o"
 	@echo "... __/silkworm/common/util_test.i"
 	@echo "... __/silkworm/common/util_test.s"
+	@echo "... __/silkworm/heap/heap_test.o"
+	@echo "... __/silkworm/heap/heap_test.i"
+	@echo "... __/silkworm/heap/heap_test.s"
 	@echo "... unit_test.o"
 	@echo "... unit_test.i"
 	@echo "... unit_test.s"

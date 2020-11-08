@@ -25,8 +25,6 @@
 namespace silkworm {
 
 namespace {
-
-
     size_t optimal = 30;
 
     bool test_sortable() {
