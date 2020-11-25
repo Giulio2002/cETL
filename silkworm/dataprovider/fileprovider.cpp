@@ -1,10 +1,20 @@
 #include <silkworm/dataprovider/fileProvider.hpp>
 #include <string.h>
 #include <cstdio>
+#include <stdlib.h>
 
-fileProvider::fileProvider(Buffer * b) {
-    filename = strdup("/tmp/cetlXXXXXXXXX");
-    mkstemp(filename);
+void intToChar(char a[], unsigned int n) {
+  memcpy(a, &n, 4);
+}
+
+unsigned int charToInt(char c[]) {
+  unsigned int n = 0;
+  memcpy(&n, c, 4);
+  return n;
+}
+
+fileProvider::fileProvider(Buffer * b, std::string dir) {
+    filename = strdup(("/" + dir + "/cetlXXXXXXXXX").c_str());
     std::fstream s = std::fstream(filename);
 
     auto entries = b->getEntries();
@@ -18,22 +28,28 @@ fileProvider::fileProvider(Buffer * b) {
     file.seekp(0);
 }
 
+fileProvider::fileProvider(std::string _filename) {
+    filename = (char *) _filename.c_str();
+    std::fstream s = std::fstream(filename);
+    file.seekp(0);
+}
+
 entry fileProvider::next() {
     if (file.eof()) {
         return {std::string(), std::string()};
     }
-    char kvLen[8];
-    char kLen[4];
-    char vLen[4];
+    char * kvLen = (char*)malloc(sizeof(char) * 8);
+    char * kLen = (char*)malloc(sizeof(char) * 4);
+    char  *vLen = (char*)malloc(sizeof(char) * 4);
 
     file.read(kvLen, 8);
 
-    for (int i = 0; i < 4; i++)
+    for (unsigned int i = 0; i < 4; i++)
     {
         kLen[i] = kvLen[i];
     }
 
-    for (int i = 4; i < 8; i++)
+    for (unsigned int i = 4; i < 8; i++)
     {
         vLen[i] = kvLen[i];
     }
@@ -48,12 +64,12 @@ entry fileProvider::next() {
 
     file.read(kv, kLength+vLength);
 
-    for (int i = 0; i < kLength; i++)
+    for (unsigned int i = 0; i < kLength; i++)
     {
         k[i] = kv[i];
     }
 
-    for (int i = kLength; i < kLength+vLength; i++)
+    for (unsigned int i = kLength; i < kLength+vLength; i++)
     {
         v[i] = kv[i];
     }
@@ -63,14 +79,4 @@ entry fileProvider::next() {
 
 void fileProvider::reset() {
     std::remove(filename);
-}
-
-void intToChar(char a[], unsigned int n) {
-  memcpy(a, &n, 4);
-}
-
-unsigned int charToInt(char c[]) {
-  unsigned int n = 0;
-  memcpy(&n, c, 4);
-  return n;
 }

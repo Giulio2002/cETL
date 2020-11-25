@@ -4,6 +4,9 @@
 #include <map>
 #include <algorithm>
 
+#ifndef BUFFER_H
+#define BUFFER_H
+
 struct entry {
     std::string k;
     std::string v;
@@ -21,3 +24,4 @@ class Buffer {
     virtual std::vector<entry> getEntries() = 0;
     virtual entry get(int) = 0;
 };
+#endif

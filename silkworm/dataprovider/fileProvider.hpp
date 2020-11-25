@@ -4,7 +4,8 @@
 class fileProvider: public DataProvider {
     public:
 
-        fileProvider(Buffer *);
+        fileProvider(Buffer *, std::string);
+        fileProvider(std::string);
         entry next();
         void reset();
 

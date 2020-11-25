@@ -1,22 +1,25 @@
 #include <silkworm/dataprovider/dataprovider.hpp>
+#include <silkworm/buffers/sortable.hpp>
 #include <silkworm/db/chaindb.hpp>
+#include <dirent.h>
 
-typedef OnLoad (void)(std::string, std::string);
+typedef void (*OnLoad)(std::string, std::string);
 
 class Collector {
 
     public:
-        Collector(std::string, bool); // true = autoclean
+        Collector(std::string, bool, SortableBuffer*); // true = autoclean
         Collector(std::string); // from fules
-        void flushBuffer(std::string, bool);
+        void flushBuffer(bool);
         void collect(std::string k, std::string v);
-        void load(std::string, Table, OnLoad load, std::string start, std::string end, int fixedBits, int bufferType, int bufferSize);
+        void load(std::unique_ptr<silkworm::lmdb::Table> t, silkworm::lmdb::Transaction * tx, OnLoad load);
 
     private:
         /*extractNextFunc ExtractNextFunc
 	    flushBuffer     func([]byte, bool) error*/
 	    std::vector<DataProvider *> dataProviders;
-        Buffer * b;
+        SortableBuffer * b;
+        std::string dir;
 	    bool allFlushed;
-	    bool autoClean;
-}
+	    bool autoclean;
+};

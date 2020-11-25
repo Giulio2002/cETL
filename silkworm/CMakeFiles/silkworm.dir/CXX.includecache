@@ -6,15 +6,41 @@
 
 #IncludeRegexTransform: 
 
-/home/giulio/silkworm/silkworm/heap/heap.cpp
-silkworm/heap/heap.hpp
+/home/giulio/cETL/silkworm/dataprovider/fileprovider.cpp
+silkworm/dataprovider/fileProvider.hpp
+-
+string.h
+-
+cstdio
+-
+stdlib.h
 -
 
-silkworm/heap/heap.hpp
+silkworm/buffers/buffer.hpp
 vector
+-
+string
+-
+map
 -
 algorithm
 -
+
+silkworm/dataprovider/dataprovider.hpp
+vector
+-
 string
+-
+map
+-
+algorithm
+-
+silkworm/buffers/buffer.hpp
+-
+
+silkworm/dataprovider/fileProvider.hpp
+silkworm/dataprovider/dataprovider.hpp
+-
+fstream
 -
 
