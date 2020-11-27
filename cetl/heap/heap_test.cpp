@@ -29,10 +29,10 @@ namespace silkworm {
 namespace {
     bool test_heap() {
         Heap h = new_heap();
-        push_heap(&h, {std::string({1}), std::string({34}), 0});
-        push_heap(&h, {std::string({8}), std::string({34}), 0});
-        push_heap(&h, {std::string({6}), std::string({34}), 0});
-        push_heap(&h, {std::string({2}), std::string({34}), 0});
+        push_heap(&h, {silkworm::ByteView({1}), silkworm::ByteView({34}), 0});
+        push_heap(&h, {silkworm::ByteView({8}), silkworm::ByteView({34}), 0});
+        push_heap(&h, {silkworm::ByteView({6}), silkworm::ByteView({34}), 0});
+        push_heap(&h, {silkworm::ByteView({2}), silkworm::ByteView({34}), 0});
 
         if (pop_heap(&h).key.at(0) != 0x1) return false;
         if (pop_heap(&h).key.at(0) != 0x2) return false;

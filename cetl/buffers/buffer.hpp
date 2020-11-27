@@ -1,21 +1,20 @@
-
 #include <vector>
 #include <string>
 #include <map>
 #include <algorithm>
-
+#include <silkworm/common/base.hpp>
 #ifndef BUFFER_H
 #define BUFFER_H
 
 struct entry {
-    std::string k;
-    std::string v;
+    silkworm::ByteView k;
+    silkworm::ByteView v;
 };
 
 class Buffer {
    public:
 
-    virtual void put(std::string, std::string) = 0;
+    virtual void put(silkworm::ByteView, silkworm::ByteView) = 0;
     virtual void reset() = 0;
     virtual void sort() = 0;
 

@@ -6,7 +6,7 @@ SortableBuffer::SortableBuffer(size_t _optimalSize) {
     size = 0;
 }
 
-void SortableBuffer::put(std::string k, std::string v) {
+void SortableBuffer::put(silkworm::ByteView k, silkworm::ByteView v) {
     size += k.length() + v.length();
     entries.push_back(entry{k, v});
 }

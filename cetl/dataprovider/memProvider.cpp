@@ -7,7 +7,7 @@ memProvider::memProvider(Buffer * _buffer) {
 
 entry memProvider::next() {
     if (pos >= buffer->length())
-        return {std::string(), std::string()};
+        return {silkworm::ByteView(), silkworm::ByteView()};
 
     entry e = buffer->get(pos);
     pos++;

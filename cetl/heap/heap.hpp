@@ -1,12 +1,12 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-
+#include <silkworm/common/base.hpp>
 namespace etl{
 
 struct heap_elem {
-    std::string key;
-    std::string value;
+    silkworm::ByteView key;
+    silkworm::ByteView value;
     int time;
 };
 

@@ -40,7 +40,7 @@ void Collector::flushBuffer(bool ram) {
     }
 }
 
-void Collector::collect(std::string k, std::string v) {
+void Collector::collect(silkworm::ByteView k, silkworm::ByteView v) {
     b->put(k, v);
     if (b->checkFlushSize()) {
         flushBuffer(false);
@@ -64,9 +64,13 @@ void Collector::load(std::unique_ptr<silkworm::lmdb::Table> t, silkworm::lmdb::T
 		auto next = dataProviders.at(e.time)->next();
         tx->commit();
         t->clear();
-        /*if (next.k.compare(std::string("")) !=  0 || next.v.compare(std::string("")) !=  0)
-            etl::push_heap(&h, {next.k, next.v, e.time});
+        if (next.k.size() ==  0 && next.v.size() ==  0) {
+            dataProviders.at(e.time)->reset();
+            dataProviders.erase(dataProviders.begin() + e.time);
+            continue;
+        }
+        etl::push_heap(&h, {next.k, next.v, e.time});
         if (s%100000 == 0)
-            tx->commit();*/
+            tx->commit();
     }
 }

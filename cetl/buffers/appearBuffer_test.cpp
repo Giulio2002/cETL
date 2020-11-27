@@ -31,9 +31,9 @@ namespace {
 
     bool test_appearBuffer() {
         Buffer *b = new AppearBuffer(optimal);
-        b->put(std::string({4, 1, 5, 6, 5}), std::string({0x45, 0x61, 0x9, 0x6, 0x1}));
-        b->put(std::string({9, 1, 5, 6, 5}), std::string({0x15, 0x21, 0x9, 0x6, 0x1}));
-        b->put(std::string({1, 1, 5, 6, 5}), std::string({0x10, 0x21, 0x9, 0x6, 0x1}));
+        b->put(silkworm::ByteView({4, 1, 5, 6, 5}), silkworm::ByteView({0x45, 0x61, 0x9, 0x6, 0x1}));
+        b->put(silkworm::ByteView({9, 1, 5, 6, 5}), silkworm::ByteView({0x15, 0x21, 0x9, 0x6, 0x1}));
+        b->put(silkworm::ByteView({1, 1, 5, 6, 5}), silkworm::ByteView({0x10, 0x21, 0x9, 0x6, 0x1}));
         if (!b->checkFlushSize()) return false;
         b->sort();
         auto e = b->getEntries();

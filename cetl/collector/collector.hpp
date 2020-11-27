@@ -3,15 +3,15 @@
 #include <silkworm/db/chaindb.hpp>
 #include <dirent.h>
 
-typedef void (*OnLoad)(std::string, std::string);
+typedef void (*OnLoad)(silkworm::ByteView, silkworm::ByteView);
 
 class Collector {
 
     public:
         Collector(std::string, bool, SortableBuffer*); // true = autoclean
-        Collector(std::string); // from fules
+        Collector(std::string); // from files
         void flushBuffer(bool);
-        void collect(std::string k, std::string v);
+        void collect(silkworm::ByteView k, silkworm::ByteView v);
         void load(std::unique_ptr<silkworm::lmdb::Table> t, silkworm::lmdb::Transaction * tx, OnLoad load);
 
     private:

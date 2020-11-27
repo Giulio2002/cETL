@@ -4,7 +4,7 @@ class SortableBuffer: public Buffer {
    public:
     SortableBuffer(size_t _optimalSize);
 
-    void put(std::string, std::string);
+    void put(silkworm::ByteView, silkworm::ByteView);
     void reset();
     void sort();
 

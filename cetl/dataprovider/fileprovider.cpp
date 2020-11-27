@@ -23,7 +23,7 @@ fileProvider::fileProvider(Buffer * b, std::string dir) {
         char vLen[4];
         intToChar(kLen, e.k.length());
         intToChar(vLen, e.v.length());
-        file << kLen << vLen << e.k << e.v;
+        file << kLen << vLen << e.k.data() << e.v.data();
     }
     file.seekp(0);
 }
@@ -36,7 +36,7 @@ fileProvider::fileProvider(std::string _filename) {
 
 entry fileProvider::next() {
     if (file.eof()) {
-        return {std::string(), std::string()};
+        return {silkworm::ByteView(), silkworm::ByteView()};
     }
     char * kvLen = (char*)malloc(sizeof(char) * 8);
     char * kLen = (char*)malloc(sizeof(char) * 4);
@@ -74,7 +74,7 @@ entry fileProvider::next() {
         v[i] = kv[i];
     }
 
-    return {std::string(k), std::string(v)};
+    return {silkworm::ByteView((const unsigned char*) k), silkworm::ByteView((const unsigned char*) v)};
 }
 
 void fileProvider::reset() {

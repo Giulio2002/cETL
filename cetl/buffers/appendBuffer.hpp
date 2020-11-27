@@ -4,7 +4,7 @@ class AppendBuffer: public Buffer {
    public:
     AppendBuffer(size_t _optimalSize);
 
-    void put(std::string, std::string);
+    void put(silkworm::ByteView, silkworm::ByteView);
     void reset();
     void sort();
 
@@ -16,7 +16,7 @@ class AppendBuffer: public Buffer {
    private:
 
     std::vector<entry> buffer;
-    std::map<std::string, std::string> entries;
+    std::map<silkworm::ByteView, silkworm::ByteView> entries;
     size_t optimalSize;
     size_t size;
 };

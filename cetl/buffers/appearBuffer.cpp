@@ -3,12 +3,12 @@
 
 AppearBuffer::AppearBuffer(size_t _optimalSize) {
     optimalSize = _optimalSize;
-    entries = std::map<std::string, std::string>();
+    entries = std::map<silkworm::ByteView, silkworm::ByteView>();
     buffer = std::vector<entry>();
     size = 0;
 }
 
-void AppearBuffer::put(std::string k, std::string v) {
+void AppearBuffer::put(silkworm::ByteView k, silkworm::ByteView v) {
     auto e = entries.find(k);
 	if (entries.end() != e) {
         return;

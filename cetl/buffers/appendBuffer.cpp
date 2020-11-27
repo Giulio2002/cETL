@@ -2,21 +2,24 @@
 
 AppendBuffer::AppendBuffer(size_t _optimalSize) {
     optimalSize = _optimalSize;
-    entries = std::map<std::string, std::string>();
+    entries = std::map<silkworm::ByteView, silkworm::ByteView>();
     buffer = std::vector<entry>();
     size = 0;
 }
 
-void AppendBuffer::put(std::string k, std::string v) {
+void AppendBuffer::put(silkworm::ByteView k, silkworm::ByteView v) {
     auto e = entries.find(k);
-    std::string stored;
+    silkworm::ByteView stored;
 	if (entries.end() == e) {
         size += k.length();
     } else {
         stored = e->second;
     }
     size += v.length();
-    stored = stored + v;
+    char * _stored = (char *) malloc(sizeof(char) * (stored.size() + v.size()));
+    strcat(_stored, (const char *) stored.data());
+    strcat(_stored, (const char *) v.data());
+    stored = silkworm::ByteView((const unsigned char *) _stored, sizeof _stored);
     entries.insert({k, stored});
 }
 
