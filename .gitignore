@@ -2,3 +2,8 @@ build
 xcode
 .vscode
 .vs
+*.a
+*.cmake
+CMakeCache.txt
+Makefile
+CMakeFiles

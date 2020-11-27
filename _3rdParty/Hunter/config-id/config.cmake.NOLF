@@ -1217,9 +1217,7 @@ hunter_final_config(
 )
 hunter_final_config(
     PACKAGE "lmdb"
-    VERSION "0.9.26"
-    SHA1 "ed1f187022ae44d51816400343e219c8a1c7ccd6"
-    URL "https://github.com/torquem-ch/lmdb/archive/v0.9.26.tar.gz"
+    VERSION "0.9.21-p2"
 )
 hunter_final_config(
     PACKAGE "lmdbxx"

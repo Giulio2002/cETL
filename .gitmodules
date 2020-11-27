@@ -1,18 +1,3 @@
-[submodule "evmone"]
-	path = evmone
-	url = https://github.com/torquem-ch/evmone.git
-[submodule "secp256k1"]
-	path = secp256k1
-	url = https://github.com/bitcoin-core/secp256k1.git
-[submodule "libff"]
-	path = libff
-	url = https://github.com/torquem-ch/libff.git
-[submodule "cbor-cpp"]
-	path = cbor-cpp
-	url = https://github.com/torquem-ch/cbor-cpp.git
-[submodule "tests"]
-	path = tests
-	url = https://github.com/ethereum/tests.git
-[submodule "cpp-lru-cache"]
-	path = cpp-lru-cache
-	url = https://github.com/torquem-ch/cpp-lru-cache.git
+[submodule "silkworm"]
+	path = silkworm
+	url = https://github.com/torquem-ch/silkworm
