@@ -82,3 +82,29 @@ EXPORT int tg_index_account(MDB_txn* mdb_txn, uint64_t start_block) {
     collector.load(to.get());
     return 0;
 }
+
+EXPORT int tg_blockhashes(MDB_txn* mdb_txn) {
+    auto buffer = new SortableBuffer(OPTIMAL_BUFFER_SIZE);
+    auto collector = Collector("cetl/", false, buffer);
+    silkworm::lmdb::Transaction txn{/*parent=*/nullptr, mdb_txn, /*flags=*/0};
+    auto from{txn.open(silkworm::db::table::kBlockHeaders)};
+    auto to{txn.open(silkworm::db::table::kHeaderNumbers)};
+    // Extract
+    MDB_val key, data;
+    int rc = from->get_current(&key, &data);
+    while (rc == MDB_SUCCESS) {
+        // Extraction occurs here
+        silkworm::ByteView k{silkworm::db::from_mdb_val(key)};
+
+        if (k.size() == 40)
+            collector.collect(k.substr(8,40), k.substr(0,8));
+
+        // END of extraction
+        rc = from->get_next(&key, &data);
+        if (rc && rc != MDB_NOTFOUND) {
+            return rc;
+        }
+    }
+    collector.load(to.get());
+    return 0;
+}
