@@ -1,5 +1,8 @@
 #include <cetl/buffers/buffer.hpp>
 
+#ifndef SORTABLE_H
+#define SORTABLE_H
+
 class SortableBuffer: public Buffer {
    public:
     SortableBuffer(size_t _optimalSize);
@@ -20,3 +23,5 @@ class SortableBuffer: public Buffer {
     size_t optimalSize;
     size_t size;
 };
+
+#endif

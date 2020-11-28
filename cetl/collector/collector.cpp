@@ -47,7 +47,7 @@ void Collector::collect(silkworm::ByteView k, silkworm::ByteView v) {
     }
 }
 
-void Collector::load(std::unique_ptr<silkworm::lmdb::Table> t, silkworm::lmdb::Transaction * tx, OnLoad load) {
+void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
     etl::Heap h = etl::new_heap();
 
     for (unsigned int i = 0; i < dataProviders.size(); i++)
@@ -59,18 +59,37 @@ void Collector::load(std::unique_ptr<silkworm::lmdb::Table> t, silkworm::lmdb::T
     while (h.size() > 0) {
 		auto e = etl::pop_heap(&h);
         load(e.key, e.value);
-        // t->put(e.key, e.value);
+        t->put(e.key, e.value);
         s++;
 		auto next = dataProviders.at(e.time)->next();
-        tx->commit();
-        t->clear();
         if (next.k.size() ==  0 && next.v.size() ==  0) {
             dataProviders.at(e.time)->reset();
             dataProviders.erase(dataProviders.begin() + e.time);
             continue;
         }
         etl::push_heap(&h, {next.k, next.v, e.time});
-        if (s%100000 == 0)
-            tx->commit();
+    }
+}
+
+void Collector::load(silkworm::lmdb::Table * t) {
+    etl::Heap h = etl::new_heap();
+
+    for (unsigned int i = 0; i < dataProviders.size(); i++)
+    {
+        auto entry = dataProviders.at(i)->next();
+        etl::push_heap(&h, {entry.k, entry.v, (int)i});
+    }
+    size_t s = 0;
+    while (h.size() > 0) {
+		auto e = etl::pop_heap(&h);
+        t->put(e.key, e.value);
+        s++;
+		auto next = dataProviders.at(e.time)->next();
+        if (next.k.size() ==  0 && next.v.size() ==  0) {
+            dataProviders.at(e.time)->reset();
+            dataProviders.erase(dataProviders.begin() + e.time);
+            continue;
+        }
+        etl::push_heap(&h, {next.k, next.v, e.time});
     }
 }

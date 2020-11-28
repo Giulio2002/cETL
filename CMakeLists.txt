@@ -85,3 +85,5 @@ endif()
 
 # CETL itself
 add_subdirectory(cetl)
+add_subdirectory(api)
+

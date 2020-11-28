@@ -12,7 +12,8 @@ class Collector {
         Collector(std::string); // from files
         void flushBuffer(bool);
         void collect(silkworm::ByteView k, silkworm::ByteView v);
-        void load(std::unique_ptr<silkworm::lmdb::Table> t, silkworm::lmdb::Transaction * tx, OnLoad load);
+        void load(silkworm::lmdb::Table *, OnLoad);
+        void load(silkworm::lmdb::Table *);
 
     private:
         /*extractNextFunc ExtractNextFunc
