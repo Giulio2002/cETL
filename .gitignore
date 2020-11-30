@@ -7,3 +7,4 @@ xcode
 CMakeCache.txt
 Makefile
 CMakeFiles
+*.sh
