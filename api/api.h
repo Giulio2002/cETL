@@ -35,8 +35,8 @@
 extern "C" {
 #endif
 
-EXPORT int tg_index_accounts(MDB_txn* txn, uint64_t start_block);
-EXPORT int tg_blockhashes(MDB_txn* mdb_txn);
+// EXPORT int tg_index_accounts(MDB_txn* txn, uint64_t start_block);
+EXPORT int tg_blockhashes(MDB_txn* mdb_txn, uint64_t block_number);
 
 #if __cplusplus
 }

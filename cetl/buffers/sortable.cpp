@@ -1,4 +1,5 @@
 #include <cetl/buffers/sortable.hpp>
+#include <iostream>
 
 SortableBuffer::SortableBuffer(size_t _optimalSize) {
     optimalSize = _optimalSize;
@@ -31,6 +32,8 @@ void SortableBuffer::sort() {
 
 void SortableBuffer::reset() {
     entries.clear();
+    entries.shrink_to_fit();
+    std::cout << "freed" << std::endl;
     size = 0;
 }
 

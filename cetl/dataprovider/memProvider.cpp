@@ -1,13 +1,15 @@
 #include <cetl/dataprovider/memProvider.hpp>
 
-memProvider::memProvider(Buffer * _buffer) {
+memProvider::memProvider(SortableBuffer * _buffer) {
     buffer = _buffer;
     pos = 0;
 }
 
 entry memProvider::next() {
-    if (pos >= buffer->length())
+    if (pos >= buffer->length()) {
+        buffer->reset();
         return {silkworm::ByteView(), silkworm::ByteView()};
+    }
 
     entry e = buffer->get(pos);
     pos++;

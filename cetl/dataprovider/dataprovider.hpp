@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include <cetl/buffers/buffer.hpp>
+#include <cetl/buffers/sortable.hpp>
 
 #ifndef DATAPROVIDER_H
 #define DATAPROVIDER_H

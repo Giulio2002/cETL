@@ -1,29 +1,37 @@
 #include <cetl/dataprovider/fileProvider.hpp>
+#include <boost/endian/conversion.hpp>
 #include <string.h>
 #include <cstdio>
 #include <stdlib.h>
+#include <sys/stat.h>
 
-void intToChar(char a[], unsigned int n) {
-  memcpy(a, &n, 4);
+silkworm::ByteView from_char_array(void * val, size_t size) {
+    auto* ptr{static_cast<uint8_t*>(val)};
+    return {ptr, size};
 }
 
-unsigned int charToInt(char c[]) {
-  unsigned int n = 0;
-  memcpy(&n, c, 4);
-  return n;
+std::string byteviewToString(silkworm::ByteView bytes) {
+    auto res = std::string();
+    for (unsigned int i = 0; i < bytes.size(); i++) {
+        res.push_back((char) bytes.at(i));
+    }
+    return res;
+
 }
-
-fileProvider::fileProvider(Buffer * b, std::string dir) {
-    filename = strdup(("/" + dir + "/cetlXXXXXXXXX").c_str());
-    std::fstream s = std::fstream(filename);
-
+fileProvider::fileProvider(SortableBuffer * b, int i) {
+    file.open("./tmp"+i, std::ios_base::in | std::ios_base::out | std::ios_base::trunc);
     auto entries = b->getEntries();
     for (auto e: entries) {
-        char kLen[4];
-        char vLen[4];
-        intToChar(kLen, e.k.length());
-        intToChar(vLen, e.v.length());
-        file << kLen << vLen << e.k.data() << e.v.data();
+        /*silkworm::Bytes kLen(4, '\0');
+        silkworm::Bytes vLen(4, '\0');
+        boost::endian::store_big_u32(&kLen[0], e.k.size());
+        boost::endian::store_big_u32(&vLen[0], e.v.size());*/
+        auto flow = std::string();
+        flow.push_back((char) e.k.size());
+        flow.push_back((char) e.v.size());
+        flow.append(byteviewToString(e.k));
+        flow.append(byteviewToString(e.v));
+        file.write(flow.c_str(), flow.size());
     }
     file.seekp(0);
 }
@@ -38,43 +46,47 @@ entry fileProvider::next() {
     if (file.eof()) {
         return {silkworm::ByteView(), silkworm::ByteView()};
     }
-    char * kvLen = (char*)malloc(sizeof(char) * 8);
-    char * kLen = (char*)malloc(sizeof(char) * 4);
-    char  *vLen = (char*)malloc(sizeof(char) * 4);
+    char * s_buffer = (char*) malloc(sizeof(char) * 2);
+    file.read(s_buffer, 2);
+    auto u_buffer = (unsigned char *) s_buffer;
+    /*silkworm::Bytes kLen(4, '\0');
+    silkworm::Bytes vLen(4, '\0');
 
-    file.read(kvLen, 8);
 
     for (unsigned int i = 0; i < 4; i++)
     {
-        kLen[i] = kvLen[i];
+        kLen[i] = buffer[i];
+        std::cout << " " << (int) kLen[i];
     }
-
+    std::cout << std::endl;
     for (unsigned int i = 4; i < 8; i++)
     {
-        vLen[i] = kvLen[i];
+        vLen[i] = buffer[i];
     }
 
+*/
+    auto kLength = (unsigned int) u_buffer[0];
+    auto vLength = (unsigned int) u_buffer[1];
+    char * s_kv = (char *) malloc(sizeof(char) * (kLength+ vLength));
+    unsigned char k[kLength];
+    unsigned char v[vLength];
 
-    auto kLength = charToInt(kLen);
-    auto vLength = charToInt(vLen);
-
-    char kv[kLength+vLength];
-    char k[kLength];
-    char v[vLength];
-
-    file.read(kv, kLength+vLength);
-
+    file.read(s_kv, kLength+vLength);
+    auto u_kv = (unsigned char *) s_kv;
     for (unsigned int i = 0; i < kLength; i++)
     {
-        k[i] = kv[i];
+        k[i] = u_kv[i];
     }
 
     for (unsigned int i = kLength; i < kLength+vLength; i++)
     {
-        v[i] = kv[i];
+        v[i] = u_kv[i];
     }
 
-    return {silkworm::ByteView((const unsigned char*) k), silkworm::ByteView((const unsigned char*) v)};
+    free(s_buffer);
+    free(s_kv);
+
+    return {from_char_array(k, kLength), from_char_array(v, vLength)};
 }
 
 void fileProvider::reset() {

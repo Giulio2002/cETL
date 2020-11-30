@@ -3,11 +3,11 @@
 class memProvider: public DataProvider {
     public:
 
-        memProvider(Buffer *);
+        memProvider(SortableBuffer *);
         entry next();
         void reset();
 
     private:
         int pos;
-        Buffer *buffer;
+        SortableBuffer *buffer;
 };

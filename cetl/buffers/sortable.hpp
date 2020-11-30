@@ -1,9 +1,17 @@
-#include <cetl/buffers/buffer.hpp>
-
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <silkworm/common/base.hpp>
 #ifndef SORTABLE_H
 #define SORTABLE_H
 
-class SortableBuffer: public Buffer {
+struct entry {
+    silkworm::ByteView k;
+    silkworm::ByteView v;
+};
+
+class SortableBuffer {
    public:
     SortableBuffer(size_t _optimalSize);
 
