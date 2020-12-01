@@ -29,19 +29,33 @@ void Collector::collect(silkworm::ByteView k, silkworm::ByteView v) {
 }
 
 void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
+    if (dataProviders.size() == 0) {
+        b->sort();
+        auto entries = b->getEntries();
+        for (auto e: entries) {
+            auto key = silkworm::db::to_mdb_val(e.k);
+            auto value = silkworm::db::to_mdb_val(e.v);
+            t->put_append(&key, &value);
+        }
+        return;
+    }
+
     etl::Heap h = etl::new_heap();
+
+
     flushBuffer(false);
     for (unsigned int i = 0; i < dataProviders.size(); i++)
     {
         auto entry = dataProviders.at(i)->next();
         etl::push_heap(&h, {entry.k, entry.v, (int)i});
     }
-    size_t s = 0;
+
     while (h.size() > 0) {
 		auto e = etl::pop_heap(&h);
         load(e.key, e.value);
-        t->put(e.key, e.value);
-        s++;
+        auto key = silkworm::db::to_mdb_val(e.key);
+        auto value = silkworm::db::to_mdb_val(e.value);
+        t->put_append(&key, &value);
 		auto next = dataProviders.at(e.time)->next();
         if (next.k.size() ==  0 && next.v.size() ==  0) {
             dataProviders.at(e.time)->reset();
@@ -53,6 +67,15 @@ void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
 }
 
 void Collector::load(silkworm::lmdb::Table * t) {
+    if (dataProviders.size() == 0) {
+        b->sort();
+        auto entries = b->getEntries();
+        for (auto e: entries) {
+            t->put(e.k, e.v);
+        }
+        return;
+    }
+
     etl::Heap h = etl::new_heap();
     flushBuffer(true);
 
@@ -64,9 +87,7 @@ void Collector::load(silkworm::lmdb::Table * t) {
     size_t s = 0;
     while (h.size() > 0) {
 		auto e = etl::pop_heap(&h);
-        auto key = silkworm::db::to_mdb_val(e.key);
-        auto value = silkworm::db::to_mdb_val(e.value);
-        t->put_append(&key, &value);
+        t->put(e.key, e.value);
         s++;
 		auto next = dataProviders.at(e.time)->next();
         if (next.k.size() ==  0 && next.v.size() ==  0) {

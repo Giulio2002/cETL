@@ -33,7 +33,6 @@ void SortableBuffer::sort() {
 void SortableBuffer::reset() {
     entries.clear();
     entries.shrink_to_fit();
-    std::cout << "freed" << std::endl;
     size = 0;
 }
 

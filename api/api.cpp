@@ -104,7 +104,6 @@ EXPORT int tg_blockhashes(MDB_txn* mdb_txn, uint64_t block_number) {
     MDB_val data_mdb;
     SILKWORM_LOG(LogInfo) << "Started BlockHashes Extraction" << std::endl;
     int i = 0;
-    std::cout << block_number << std::endl;
     for (int rc{from->seek(&key_mdb, &data_mdb)}; rc != MDB_NOTFOUND; rc = from->get_next(&key_mdb, &data_mdb)) {
         // Extraction occurs here
         ByteView k{db::from_mdb_val(key_mdb)};

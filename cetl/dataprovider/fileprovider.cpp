@@ -49,22 +49,6 @@ entry fileProvider::next() {
     char * s_buffer = (char*) malloc(sizeof(char) * 2);
     file.read(s_buffer, 2);
     auto u_buffer = (unsigned char *) s_buffer;
-    /*silkworm::Bytes kLen(4, '\0');
-    silkworm::Bytes vLen(4, '\0');
-
-
-    for (unsigned int i = 0; i < 4; i++)
-    {
-        kLen[i] = buffer[i];
-        std::cout << " " << (int) kLen[i];
-    }
-    std::cout << std::endl;
-    for (unsigned int i = 4; i < 8; i++)
-    {
-        vLen[i] = buffer[i];
-    }
-
-*/
     auto kLength = (unsigned int) u_buffer[0];
     auto vLength = (unsigned int) u_buffer[1];
     char * s_kv = (char *) malloc(sizeof(char) * (kLength+ vLength));
