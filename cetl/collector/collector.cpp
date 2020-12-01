@@ -1,30 +1,27 @@
 #include <cetl/collector/collector.hpp>
 #include <cetl/dataprovider/fileProvider.hpp>
-#include <cetl/dataprovider/memProvider.hpp>
 #include <cetl/heap/heap.hpp>
 
 Collector::Collector(SortableBuffer * _b) {
     b = _b;
-    dataProviders = std::vector<DataProvider *>();
+    dataProviders = std::vector<FileProvider *>();
 }
 
-void Collector::flushBuffer(bool ram) {
+void Collector::flushBuffer() {
     b->sort();
     if (b->length() == 0) {
         return;
     }
-    if (ram && dataProviders.size() == 0) {
-        dataProviders.push_back(new memProvider(b));
-    } else {
-        dataProviders.push_back(new fileProvider(b, dataProviders.size()));
-        b->reset();
-    }
+
+    dataProviders.push_back(new FileProvider(b, dataProviders.size()));
+    b->reset();
+
 }
 
 void Collector::collect(silkworm::ByteView k, silkworm::ByteView v) {
     b->put(k, v);
     if (b->checkFlushSize()) {
-        flushBuffer(false);
+        flushBuffer();
     }
 }
 
@@ -43,7 +40,7 @@ void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
     etl::Heap h = etl::new_heap();
 
 
-    flushBuffer(false);
+    flushBuffer();
     for (unsigned int i = 0; i < dataProviders.size(); i++)
     {
         auto entry = dataProviders.at(i)->next();
@@ -77,7 +74,7 @@ void Collector::load(silkworm::lmdb::Table * t) {
     }
 
     etl::Heap h = etl::new_heap();
-    flushBuffer(true);
+    flushBuffer();
 
     for (unsigned int i = 0; i < dataProviders.size(); i++)
     {

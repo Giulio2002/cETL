@@ -1,4 +1,4 @@
-#include <cetl/dataprovider/dataprovider.hpp>
+#include <cetl/dataprovider/fileProvider.hpp>
 #include <cetl/buffers/sortable.hpp>
 #include <silkworm/db/chaindb.hpp>
 #include <dirent.h>
@@ -9,13 +9,13 @@ class Collector {
 
     public:
         Collector(SortableBuffer*); // true = autoclean
-        void flushBuffer(bool);
+        void flushBuffer();
         void collect(silkworm::ByteView k, silkworm::ByteView v);
         void load(silkworm::lmdb::Table *, OnLoad);
         void load(silkworm::lmdb::Table *);
 
     private:
 
-	    std::vector<DataProvider *> dataProviders;
+	    std::vector<FileProvider *> dataProviders;
         SortableBuffer * b;
 };

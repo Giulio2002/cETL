@@ -1,11 +1,19 @@
-#include <cetl/dataprovider/dataprovider.hpp>
+
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cetl/buffers/sortable.hpp>
 #include <fstream>
 
-class fileProvider: public DataProvider {
+#ifndef FILE_PROVIDER_H
+#define FILE_PROVIDER_H
+
+class FileProvider {
     public:
 
-        fileProvider(SortableBuffer *, int);
-        fileProvider(std::string);
+        FileProvider(SortableBuffer *, int);
+        FileProvider(std::string);
         entry next();
         void reset();
 
@@ -13,3 +21,4 @@ class fileProvider: public DataProvider {
         std::fstream file;
         char * filename;
 };
+#endif

@@ -18,7 +18,7 @@ std::string byteviewToString(silkworm::ByteView bytes) {
     return res;
 
 }
-fileProvider::fileProvider(SortableBuffer * b, int i) {
+FileProvider::FileProvider(SortableBuffer * b, int i) {
     file.open("./tmp"+i, std::ios_base::in | std::ios_base::out | std::ios_base::trunc);
     auto entries = b->getEntries();
     for (auto e: entries) {
@@ -36,13 +36,13 @@ fileProvider::fileProvider(SortableBuffer * b, int i) {
     file.seekp(0);
 }
 
-fileProvider::fileProvider(std::string _filename) {
+FileProvider::FileProvider(std::string _filename) {
     filename = (char *) _filename.c_str();
     std::fstream s = std::fstream(filename);
     file.seekp(0);
 }
 
-entry fileProvider::next() {
+entry FileProvider::next() {
     if (file.eof()) {
         return {silkworm::ByteView(), silkworm::ByteView()};
     }
@@ -73,6 +73,6 @@ entry fileProvider::next() {
     return {from_char_array(k, kLength), from_char_array(v, vLength)};
 }
 
-void fileProvider::reset() {
+void FileProvider::reset() {
     std::remove(filename);
 }
