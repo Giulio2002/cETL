@@ -3,20 +3,27 @@
 
 Buffer::Buffer(size_t _optimalSize) {
     optimalSize = _optimalSize;
-    entries = std::map<silkworm::ByteView, silkworm::ByteView>();
+    entries = std::vector<entry>();
     size = 0;
 }
 
 void Buffer::put(silkworm::ByteView k, silkworm::ByteView v) {
     size += v.length() + k.length();
-    entries.insert({k, v});
+    entries.push_back({k, v});
 }
 
-std::map<silkworm::ByteView, silkworm::ByteView>::iterator Buffer::begin() {
+void Buffer::sort() {
+    std::sort(entries.begin(), entries.end(), [](const entry lhs, const entry rhs) {
+        return lhs.k.compare(rhs.k) >= 0;
+    });
+}
+
+
+std::vector<entry>::iterator Buffer::begin() {
     return entries.begin();
 }
 
-std::map<silkworm::ByteView, silkworm::ByteView>::iterator Buffer::end() {
+std::vector<entry>::iterator Buffer::end() {
     return entries.end();
 }
 
@@ -26,6 +33,7 @@ int Buffer::length() {
 
 void Buffer::reset() {
     entries.clear();
+    entries.shrink_to_fit();
     size = 0;
 }
 

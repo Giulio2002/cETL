@@ -28,11 +28,11 @@ void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
     if (dataProviders.size() == 0) {
         auto begin = b->begin();
         auto end = b->end();
-        for(std::map<silkworm::ByteView, silkworm::ByteView>::iterator iter = begin;
+        for(auto iter = begin;
             iter != end;
             ++iter ) {
-            auto key = silkworm::db::to_mdb_val(iter->first);
-            auto value = silkworm::db::to_mdb_val(iter->second);
+            auto key = silkworm::db::to_mdb_val(iter->k);
+            auto value = silkworm::db::to_mdb_val(iter->v);
             t->put_append(&key, &value);
         }
         return;
@@ -66,12 +66,13 @@ void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
 
 void Collector::load(silkworm::lmdb::Table * t) {
     if (dataProviders.size() == 0) {
+        b->sort();
         auto begin = b->begin();
         auto end = b->end();
-        for(std::map<silkworm::ByteView, silkworm::ByteView>::iterator iter = begin;
+        for(auto iter = begin;
             iter != end;
             ++iter ) {
-            t->put(iter->first, iter->second);
+            t->put(iter->k, iter->v);
         }
         return;
     }

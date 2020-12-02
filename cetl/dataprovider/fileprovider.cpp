@@ -25,11 +25,10 @@ FileProvider::FileProvider(Buffer * b, int i) {
     auto begin = b->begin();
     auto end = b->end();
     std::cout << "flush" << std::endl;
-    for(std::map<silkworm::ByteView, silkworm::ByteView>::iterator iter = begin;
-        iter != end;
-        ++iter ) {
-        auto k{iter->first};
-        auto v{iter->second};
+    for(auto iter = begin; iter != end; ++iter ) {
+        std::cout << (int) iter->k.data()[0] << std::endl;
+        auto k{iter->k};
+        auto v{iter->v};
         auto flow = std::string();
         flow.push_back((char) k.size());
         flow.push_back((char) v.size());

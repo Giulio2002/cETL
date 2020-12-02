@@ -22,7 +22,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define OPTIMAL_BUFFER_SIZE 3000000
+#define OPTIMAL_BUFFER_SIZE 268435456
 #define HASH_LENGTH 32
 
 #if defined _MSC_VER

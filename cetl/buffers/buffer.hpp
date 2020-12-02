@@ -1,10 +1,10 @@
-#include <array>
+#include <vector>
 #include <string>
 #include <algorithm>
+#include <vector>
 #include <silkworm/common/base.hpp>
 #ifndef BUFFER_H
 #define BUFFER_H
-#define FIX 20000000
 
 struct entry {
     silkworm::ByteView k;
@@ -20,12 +20,13 @@ class Buffer {
 
     int length();
     bool checkFlushSize();
-    std::map<silkworm::ByteView, silkworm::ByteView>::iterator begin();
-    std::map<silkworm::ByteView, silkworm::ByteView>::iterator end();
+    void sort();
+    std::vector<entry>::iterator begin();
+    std::vector<entry>::iterator end();
 
    private:
 
-    std::map<silkworm::ByteView, silkworm::ByteView> entries;
+    std::vector<entry> entries;
     size_t optimalSize;
     size_t size;
 };
