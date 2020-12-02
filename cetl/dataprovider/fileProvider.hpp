@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include <cetl/buffers/sortable.hpp>
+#include <cetl/buffers/buffer.hpp>
 #include <fstream>
 
 #ifndef FILE_PROVIDER_H
@@ -12,8 +12,7 @@
 class FileProvider {
     public:
 
-        FileProvider(SortableBuffer *, int);
-        FileProvider(std::string);
+        FileProvider(Buffer *, int);
         entry next();
         void reset();
 

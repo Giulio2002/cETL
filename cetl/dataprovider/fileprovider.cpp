@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <iostream>
 
 silkworm::ByteView from_char_array(void * val, size_t size) {
     auto* ptr{static_cast<uint8_t*>(val)};
@@ -18,27 +19,24 @@ std::string byteviewToString(silkworm::ByteView bytes) {
     return res;
 
 }
-FileProvider::FileProvider(SortableBuffer * b, int i) {
-    file.open("./tmp"+i, std::ios_base::in | std::ios_base::out | std::ios_base::trunc);
-    auto entries = b->getEntries();
-    for (auto e: entries) {
-        /*silkworm::Bytes kLen(4, '\0');
-        silkworm::Bytes vLen(4, '\0');
-        boost::endian::store_big_u32(&kLen[0], e.k.size());
-        boost::endian::store_big_u32(&vLen[0], e.v.size());*/
-        auto flow = std::string();
-        flow.push_back((char) e.k.size());
-        flow.push_back((char) e.v.size());
-        flow.append(byteviewToString(e.k));
-        flow.append(byteviewToString(e.v));
-        file.write(flow.c_str(), flow.size());
-    }
-    file.seekp(0);
-}
 
-FileProvider::FileProvider(std::string _filename) {
-    filename = (char *) _filename.c_str();
-    std::fstream s = std::fstream(filename);
+FileProvider::FileProvider(Buffer * b, int i) {
+    file.open("./tmp"+i, std::ios_base::in | std::ios_base::out | std::ios_base::trunc);
+    auto begin = b->begin();
+    auto end = b->end();
+    std::cout << "flush" << std::endl;
+    for(std::map<silkworm::ByteView, silkworm::ByteView>::iterator iter = begin;
+        iter != end;
+        ++iter ) {
+        auto k{iter->first};
+        auto v{iter->second};
+        auto flow = std::string();
+        flow.push_back((char) k.size());
+        flow.push_back((char) v.size());
+        flow.append(byteviewToString(k));
+        flow.append(byteviewToString(v));
+        file << flow;
+    }
     file.seekp(0);
 }
 

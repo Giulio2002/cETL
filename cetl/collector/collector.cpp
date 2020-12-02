@@ -2,13 +2,12 @@
 #include <cetl/dataprovider/fileProvider.hpp>
 #include <cetl/heap/heap.hpp>
 
-Collector::Collector(SortableBuffer * _b) {
+Collector::Collector(Buffer * _b) {
     b = _b;
     dataProviders = std::vector<FileProvider *>();
 }
 
 void Collector::flushBuffer() {
-    b->sort();
     if (b->length() == 0) {
         return;
     }
@@ -27,11 +26,13 @@ void Collector::collect(silkworm::ByteView k, silkworm::ByteView v) {
 
 void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
     if (dataProviders.size() == 0) {
-        b->sort();
-        auto entries = b->getEntries();
-        for (auto e: entries) {
-            auto key = silkworm::db::to_mdb_val(e.k);
-            auto value = silkworm::db::to_mdb_val(e.v);
+        auto begin = b->begin();
+        auto end = b->end();
+        for(std::map<silkworm::ByteView, silkworm::ByteView>::iterator iter = begin;
+            iter != end;
+            ++iter ) {
+            auto key = silkworm::db::to_mdb_val(iter->first);
+            auto value = silkworm::db::to_mdb_val(iter->second);
             t->put_append(&key, &value);
         }
         return;
@@ -65,10 +66,12 @@ void Collector::load(silkworm::lmdb::Table * t, OnLoad load) {
 
 void Collector::load(silkworm::lmdb::Table * t) {
     if (dataProviders.size() == 0) {
-        b->sort();
-        auto entries = b->getEntries();
-        for (auto e: entries) {
-            t->put(e.k, e.v);
+        auto begin = b->begin();
+        auto end = b->end();
+        for(std::map<silkworm::ByteView, silkworm::ByteView>::iterator iter = begin;
+            iter != end;
+            ++iter ) {
+            t->put(iter->first, iter->second);
         }
         return;
     }

@@ -85,5 +85,5 @@ endif()
 
 # CETL itself
 add_subdirectory(cetl)
-add_subdirectory(api)
-
+add_subdirectory(blockhashes)
+add_subdirectory(tx_lookup)
