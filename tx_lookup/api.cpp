@@ -3,6 +3,7 @@
 #include <cetl/buffers/buffer.hpp>
 #include <silkworm/db/tables.hpp>
 #include <silkworm/db/util.hpp>
+#include <silkworm/db/access_layer.hpp>
 #include <boost/endian/conversion.hpp>
 #include <gsl/gsl_util>
 #include <iostream>
@@ -23,50 +24,30 @@ void printByteView(ByteView b) {
     std::cout << std::endl;
 }
 
-EXPORT int tg_tx_lookup(MDB_txn* mdb_txn, uint64_t) {
+EXPORT int tg_tx_lookup(MDB_txn* mdb_txn, uint64_t from_block, uint64_t to_block) {
     Logger::default_logger().set_local_timezone(true);
     auto buffer{Buffer(OPTIMAL_BUFFER_SIZE)};
     auto collector = Collector(&buffer);
     lmdb::Transaction txn{/*parent=*/nullptr, mdb_txn, /*flags=*/0};
-    auto from{txn.open(db::table::kBlockBodies)};
     auto to{txn.open(db::table::kTxLookup)};
     // Extract
-    MDB_val key, data;
-    //from->seek(encode_number(block_number));
-    int rc = from->get_first(&key, &data);
-    lmdb::err_handler(rc);
-    lmdb::err_handler(from->get_next(&key, &data));
     SILKWORM_LOG(LogInfo) << "ETL: Started Tx Lookup Index Extraction [1/2]" << std::endl;
-    int i = 1;
-    while (rc == MDB_SUCCESS) {
+    for(uint64_t current = from_block; current < to_block; current++ ) {
         // Extraction occurs here
-        std::optional<ByteView> k{db::from_mdb_val(key)};
-        std::optional<ByteView> v{db::from_mdb_val(data)};
+        Bytes k = Bytes(8, '\0');
 
-        auto block = BlockBody{};
-        try {
-            rlp::decode<BlockBody>(*v, block);
-        } catch(...) {
-            lmdb::err_handler(from->get_next(&key, &data));
-            std::cout << "Skipped: ";
-            printByteView(*v);
-            i++;
-            continue;
-        }
-        sleep(100);
-        auto current_number{k->substr(0,8)};
-        for(auto tx: block.transactions) {
+        boost::endian::store_big_u64(&k[0], current);
+        auto bh = db::read_block(txn, current, false);
+        for(auto tx: bh->block.transactions) {
             Bytes rlp{};
             ecdsa::RecoveryId x{ecdsa::get_signature_recovery_id(tx.v)};
             rlp::encode(rlp, tx, true, (uint64_t)*x.eip155_chain_id);
             ethash::hash256 hash{keccak256(rlp)};
-            collector.collect(silkworm::ByteView(hash.bytes, HASH_LENGTH), current_number);
+            collector.collect(silkworm::ByteView(hash.bytes, HASH_LENGTH), k);
         }
-        i++;
     }
     SILKWORM_LOG(LogInfo) << "ETL: Started Tx Lookup Index Loading [2/2]" << std::endl;
     collector.load(to.get());
-    from->close();
     SILKWORM_LOG(LogInfo) << "ETL: All Done!" << std::endl;
     return 0;
 }

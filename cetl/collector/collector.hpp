@@ -13,6 +13,7 @@ class Collector {
         void collect(silkworm::ByteView k, silkworm::ByteView v);
         void load(silkworm::lmdb::Table *, OnLoad);
         void load(silkworm::lmdb::Table *);
+        bool append;
 
     private:
 

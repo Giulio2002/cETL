@@ -69,10 +69,15 @@ void Collector::load(silkworm::lmdb::Table * t) {
         b->sort();
         auto begin = b->begin();
         auto end = b->end();
-        for(auto iter = begin;
-            iter != end;
-            ++iter ) {
-            t->put(iter->k, iter->v);
+        for(auto iter = begin; iter != end; ++iter ) {
+            if (append) {
+                auto key{silkworm::db::to_mdb_val(iter->k)};
+                auto value{silkworm::db::to_mdb_val(iter->k)};
+                t->put_append(&key, &value);
+            }
+            else {
+                t->put(iter->k, iter->v);
+            }
         }
         return;
     }
@@ -88,7 +93,14 @@ void Collector::load(silkworm::lmdb::Table * t) {
     size_t s = 0;
     while (h.size() > 0) {
 		auto e = etl::pop_heap(&h);
-        t->put(e.key, e.value);
+        if (append) {
+            auto key = silkworm::db::to_mdb_val(e.key);
+            auto value = silkworm::db::to_mdb_val(e.value);
+            t->put_append(&key, &value);
+        }
+        else {
+            t->put(e.key, e.value);
+        }
         s++;
 		auto next = dataProviders.at(e.time)->next();
         if (next.k.size() ==  0 && next.v.size() ==  0) {

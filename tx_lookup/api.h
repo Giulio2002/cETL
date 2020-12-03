@@ -35,7 +35,7 @@
 extern "C" {
 #endif
 
-EXPORT int tg_tx_lookup(MDB_txn* txn, uint64_t start_block);
+EXPORT int tg_tx_lookup(MDB_txn* mdb_txn, uint64_t from_block, uint64_t to_block);
 
 #if __cplusplus
 }

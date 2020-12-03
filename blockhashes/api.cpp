@@ -14,6 +14,7 @@ EXPORT int tg_blockhashes(MDB_txn* mdb_txn, uint64_t block_number) {
     Logger::default_logger().set_local_timezone(true);
     auto buffer = new Buffer(OPTIMAL_BUFFER_SIZE);
     auto collector = Collector(buffer);
+    collector.append = true;
     lmdb::Transaction txn{/*parent=*/nullptr, mdb_txn, /*flags=*/0};
     auto cleanup{gsl::finally([&txn] { *txn.handle() = nullptr; })};
     auto from{txn.open(db::table::kBlockHeaders)};
