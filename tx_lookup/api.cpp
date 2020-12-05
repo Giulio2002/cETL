@@ -28,22 +28,30 @@ EXPORT int tg_tx_lookup(MDB_txn* mdb_txn, uint64_t from_block, uint64_t to_block
     Logger::default_logger().set_local_timezone(true);
     auto buffer{Buffer(OPTIMAL_BUFFER_SIZE)};
     auto collector = Collector(&buffer);
-    lmdb::Transaction txn{/*parent=*/nullptr, mdb_txn, /*flags=*/0};
+    lmdb::Transaction txn{nullptr, mdb_txn, 0};
+    auto cleanup{gsl::finally([&txn] { *txn.handle() = nullptr; })};
     auto to{txn.open(db::table::kTxLookup)};
+    if (from_block == 0) {
+        from_block = 1;
+        collector.append = true;
+    }
     // Extract
     SILKWORM_LOG(LogInfo) << "ETL: Started Tx Lookup Index Extraction [1/2]" << std::endl;
+
     for(uint64_t current = from_block; current < to_block; current++ ) {
         // Extraction occurs here
-        Bytes k = Bytes(8, '\0');
+        Bytes v = Bytes(8, '\0');
 
-        boost::endian::store_big_u64(&k[0], current);
+        boost::endian::store_big_u64(&v[0], current);
+        std::cout << current << std::endl;
         auto bh = db::read_block(txn, current, false);
         for(auto tx: bh->block.transactions) {
             Bytes rlp{};
             ecdsa::RecoveryId x{ecdsa::get_signature_recovery_id(tx.v)};
             rlp::encode(rlp, tx, true, (uint64_t)*x.eip155_chain_id);
             ethash::hash256 hash{keccak256(rlp)};
-            collector.collect(silkworm::ByteView(hash.bytes, HASH_LENGTH), k);
+
+            collector.collect(silkworm::ByteView(hash.bytes, HASH_LENGTH), v);
         }
     }
     SILKWORM_LOG(LogInfo) << "ETL: Started Tx Lookup Index Loading [2/2]" << std::endl;
